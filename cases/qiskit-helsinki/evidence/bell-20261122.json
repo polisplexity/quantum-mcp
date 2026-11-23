@@ -1,0 +1,68 @@
+{
+  "transport": "stdio",
+  "fixture": "measured two-qubit Bell circuit",
+  "dependency_versions": {
+    "qiskit": "2.6.2",
+    "qiskit-aer": "0.18.4",
+    "qiskit-mcp-server": "0.3.2",
+    "mcp": "1.30.0"
+  },
+  "upstream_tools": [
+    "transpile_circuit_tool",
+    "analyze_circuit_tool",
+    "compare_optimization_levels_tool",
+    "convert_qpy_to_qasm3_tool",
+    "convert_qasm3_to_qpy_tool",
+    "load_circuit_from_qasm_tool",
+    "export_circuit_to_qasm_tool"
+  ],
+  "upstream_preparation": [
+    "load_circuit_from_qasm_tool",
+    "transpile_circuit_tool",
+    "export_circuit_to_qasm_tool"
+  ],
+  "invalid_qasm_rejected": true,
+  "oversized_fixture_rejected": true,
+  "oversized_register_rejected": true,
+  "noisy_readout_flip_probability_per_bit": 0.1,
+  "runs": [
+    {
+      "execution_kind": "ideal-simulation",
+      "qasm_sha256": "53e30ed9ae490e4b006da36682025ad3949bfce0f28650a511bda17d0f4a2e51",
+      "seed_simulator": 8142,
+      "shots": 1024,
+      "ideal_probabilities": {
+        "00": 0.5,
+        "01": 0.0,
+        "10": 0.0,
+        "11": 0.5
+      },
+      "counts": {
+        "00": 507,
+        "11": 517
+      },
+      "native_parity": true,
+      "odd_fraction": 0.0
+    },
+    {
+      "execution_kind": "noisy-simulation",
+      "qasm_sha256": "53e30ed9ae490e4b006da36682025ad3949bfce0f28650a511bda17d0f4a2e51",
+      "seed_simulator": 8142,
+      "shots": 1024,
+      "ideal_probabilities": {
+        "00": 0.5,
+        "01": 0.0,
+        "10": 0.0,
+        "11": 0.5
+      },
+      "counts": {
+        "00": 432,
+        "01": 90,
+        "10": 72,
+        "11": 430
+      },
+      "native_parity": true,
+      "odd_fraction": 0.158203125
+    }
+  ]
+}

@@ -1,0 +1,4 @@
+mcp==1.30.0
+qiskit==2.6.2
+qiskit-aer==0.18.4
+qiskit-mcp-server==0.3.2

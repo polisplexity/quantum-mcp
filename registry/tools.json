@@ -1,0 +1,626 @@
+{
+  "schema_version": 1,
+  "project": "Polisplexity Quantum MCP",
+  "edition": "2026-11-22",
+  "first_entry": "qiskit-mcp",
+  "entries": [
+    {
+      "id": "qiskit-mcp",
+      "name": "Qiskit MCP Server",
+      "family": "Qiskit ecosystem",
+      "decision": "pilot",
+      "upstream": "Upstream MCP for circuit construction, transpilation and QASM/QPY export",
+      "reuse": "Preserve upstream schemas, circuit references and serialization.",
+      "build": "Add a supported tool profile and bind circuit IDs and inputs to experiment manifests.",
+      "test": "Discover the tools in a fresh workspace, create and transpile a Bell circuit, export it, and compare with direct SDK usage. Check bad input and unsupported instructions.",
+      "sources": [
+        "https://raw.githubusercontent.com/Qiskit/mcp-servers/main/qiskit-mcp-server/README.md"
+      ],
+      "status": "candidate"
+    },
+    {
+      "id": "qiskit-sdk",
+      "name": "Qiskit SDK",
+      "family": "Qiskit ecosystem",
+      "decision": "pilot",
+      "upstream": "QuantumCircuit, transpiler, Statevector and result schemas",
+      "reuse": "Use the SDK for the direct reference calculation and compiled-circuit validation.",
+      "build": "Pin SDK, target, seeds and classical-register decoding.",
+      "test": "Check analytic Bell probabilities, circuit equivalence up to global phase where applicable and preservation of register order.",
+      "sources": [
+        "https://docs.quantum.ibm.com/api/qiskit"
+      ],
+      "status": "candidate"
+    },
+    {
+      "id": "qiskit-aer",
+      "name": "Qiskit Aer",
+      "family": "Qiskit ecosystem",
+      "decision": "pilot",
+      "upstream": "AerSimulator for ideal, noisy and selected GPU simulation modes",
+      "reuse": "Reuse native simulation methods, noise models and backend metadata.",
+      "build": "Expose a narrow executor with recorded method, seed, shots and limits, and route its results back to the circuit record.",
+      "test": "Compare exact ideal probabilities and seeded counts across direct and MCP runs. Run a separate noise-model fixture and verify its expected effect.",
+      "sources": [
+        "https://qiskit.github.io/qiskit-aer/stubs/qiskit_aer.AerSimulator.html"
+      ],
+      "status": "candidate"
+    },
+    {
+      "id": "qiskit-runtime-mcp",
+      "name": "Qiskit IBM Runtime MCP",
+      "family": "Qiskit ecosystem",
+      "decision": "evaluate",
+      "upstream": "Upstream MCP with hardware discovery, primitives and jobs",
+      "reuse": "Reuse published discovery, job and primitive contracts where access exists.",
+      "build": "Preserve device, service job ID, primitive, limits and whether execution used a physical QPU.",
+      "test": "Prove the local-testing path first. Later verify an authorized Bell run, native metadata and statistical checks with capped shots.",
+      "sources": [
+        "https://github.com/Qiskit/mcp-servers/blob/main/qiskit-ibm-runtime-mcp-server/README.md",
+        "https://quantum.cloud.ibm.com/docs/en/guides/local-testing-mode"
+      ],
+      "status": "candidate"
+    },
+    {
+      "id": "qiskit-transpiler-mcp",
+      "name": "Qiskit IBM Transpiler MCP",
+      "family": "Qiskit ecosystem",
+      "decision": "alternate",
+      "upstream": "Upstream transpiler service MCP",
+      "reuse": "Reuse supported compilation when an authorized case needs it.",
+      "build": "Record source/compiled hashes, backend target and circuit depth and two-qubit gate counts.",
+      "test": "Compile the same fixture locally and through the service. Check target compatibility, numerical equivalence and unsupported-target errors.",
+      "sources": [
+        "https://github.com/Qiskit/mcp-servers/tree/main/qiskit-ibm-transpiler-mcp-server"
+      ],
+      "status": "candidate"
+    },
+    {
+      "id": "qiskit-docs-mcp",
+      "name": "Qiskit Docs MCP",
+      "family": "Qiskit ecosystem",
+      "decision": "reference",
+      "upstream": "Read-only documentation MCP",
+      "reuse": "Use original API and tutorial retrieval.",
+      "build": "Retain source URL and SDK version relevant to a run; keep retrieval separate from execution evidence.",
+      "test": "Resolve a known API query to the correct version and record failure when a historical version cannot be found.",
+      "sources": [
+        "https://github.com/Qiskit/mcp-servers/tree/main/qiskit-docs-mcp-server"
+      ],
+      "status": "candidate"
+    },
+    {
+      "id": "qiskit-gym-mcp",
+      "name": "Qiskit Gym MCP",
+      "family": "Qiskit ecosystem",
+      "decision": "research",
+      "upstream": "Community MCP for learning-based synthesis and routing",
+      "reuse": "Reuse its supported environments and fixtures.",
+      "build": "Map an admitted synthesis goal and separate circuit artifacts from generated policies.",
+      "test": "Replay a small benchmark; compare equivalence and circuit cost against a conventional compiler on the same target.",
+      "sources": [
+        "https://github.com/Qiskit/mcp-servers/tree/main/qiskit-gym-mcp-server"
+      ],
+      "status": "candidate"
+    },
+    {
+      "id": "qiskit-opt-mapper",
+      "name": "Qiskit Optimization Mapper",
+      "family": "Optimization and validation",
+      "decision": "pilot",
+      "upstream": "QUBO/Ising converters for supported formulations",
+      "reuse": "Use published binary problem conversion and Hamiltonian tools.",
+      "build": "Record mapping from site and coverage variables to bits, auxiliary variables, penalty and decoding.",
+      "test": "Compare every feasible small assignment against a direct original-objective evaluator; include failed cardinality and overlap fixtures.",
+      "sources": [
+        "https://github.com/Qiskit/qiskit-opt-mapper"
+      ],
+      "status": "candidate"
+    },
+    {
+      "id": "qaoa",
+      "name": "QAOA with Qiskit",
+      "family": "Optimization and validation",
+      "decision": "pilot",
+      "upstream": "QAOA ansatz, classical optimizer and sampler",
+      "reuse": "Reuse existing algorithm blocks and the configured sampler.",
+      "build": "Implement the bounded Helsinki experiment, explicit seeds and independent feasibility and score validation.",
+      "test": "Compare fixed-seed runs to the exact optimum. Report objective gap, feasible and optimal sampling rates, shots and full time.",
+      "sources": [
+        "https://quantum.cloud.ibm.com/docs/en/tutorials/quantum-approximate-optimization-algorithm"
+      ],
+      "status": "candidate"
+    },
+    {
+      "id": "exact-baseline",
+      "name": "Classical exact enumeration",
+      "family": "Optimization and validation",
+      "decision": "pilot",
+      "upstream": "Python combinations and exact scoring of the original objective",
+      "reuse": "Use the standard library and a versioned distance matrix.",
+      "build": "Create the independent oracle with ties and set-union coverage.",
+      "test": "Verify all 28 choices for two sites out of eight, with fixtures for ties, unreachable schools and no double counting.",
+      "sources": [
+        "https://docs.python.org/3/library/itertools.html#itertools.combinations"
+      ],
+      "status": "candidate"
+    },
+    {
+      "id": "or-tools",
+      "name": "OR-Tools CP-SAT",
+      "family": "Optimization and validation",
+      "decision": "evaluate",
+      "upstream": "Integer and Boolean constraints, status and bounds",
+      "reuse": "Use CP-SAT to scale the classical comparator.",
+      "build": "Model the same coverage and preserve solver bounds, time limits and status.",
+      "test": "Match exhaustive results on small cases and report feasible versus proved optimal on a larger case.",
+      "sources": [
+        "https://developers.google.com/optimization/cp/cp_solver/"
+      ],
+      "status": "candidate"
+    },
+    {
+      "id": "highs",
+      "name": "HiGHS",
+      "family": "Optimization and validation",
+      "decision": "alternate",
+      "upstream": "LP/MIP solver",
+      "reuse": "Use the native integer solver as a second comparator.",
+      "build": "Encode the same scoring problem and preserve tolerance and bound metadata.",
+      "test": "Compare exact objectives and admissible ties with enumeration and CP-SAT.",
+      "sources": [
+        "https://highs.dev/"
+      ],
+      "status": "candidate"
+    },
+    {
+      "id": "qoblib",
+      "name": "QOBLIB",
+      "family": "Optimization and validation",
+      "decision": "evaluate",
+      "upstream": "Published benchmark instances and comparison evidence",
+      "reuse": "Select versioned instances and review their individual reuse terms.",
+      "build": "Map fixture identity, known bounds and solver settings to run records.",
+      "test": "Reproduce a supported small instance and label observed and published metrics separately.",
+      "sources": [
+        "https://github.com/ZIB-AOPT/QOBLIB"
+      ],
+      "status": "candidate"
+    },
+    {
+      "id": "urban-walking",
+      "name": "Urban MCP walking accessibility",
+      "family": "Applications",
+      "decision": "pilot",
+      "upstream": "Existing OSMnx case, licensed snapshots and rules",
+      "reuse": "Reuse the Helsinki network, mapped school IDs, snap rules and provenance.",
+      "build": "Compute a new school-to-candidate matrix with eight documented hypothetical sites.",
+      "test": "Compare routes and matrix orientation with native OSMnx; verify unreachable values, threshold behavior, coverage IDs and attribution.",
+      "sources": [
+        "https://github.com/polisplexity/urban-mcp/tree/main/cases/two-city-walking"
+      ],
+      "status": "candidate"
+    },
+    {
+      "id": "oldt-canvas",
+      "name": "OLDT Canvas",
+      "family": "Applications",
+      "decision": "evaluate",
+      "upstream": "Versioned studies and scenario results",
+      "reuse": "Reuse supported import and revision contracts.",
+      "build": "Convert validated placements to inspectable GeoJSON bound to an alternative.",
+      "test": "Open the result in a test Twin and verify site identities, geometry, revision and separation from the baseline.",
+      "sources": [
+        "https://polisplexity.tech/products/open-local-digital-twin"
+      ],
+      "status": "candidate"
+    },
+    {
+      "id": "cirq",
+      "name": "Google Cirq",
+      "family": "Circuit SDKs and simulation",
+      "decision": "alternate",
+      "upstream": "Cirq circuits, simulator and devices",
+      "reuse": "Reuse the native SDK and device constraints.",
+      "build": "Map compatible circuits and retain measurement keys and qubit order.",
+      "test": "Compare ideal probabilities for equivalent circuits and reject unsupported gates explicitly.",
+      "sources": [
+        "https://quantumai.google/cirq"
+      ],
+      "status": "candidate"
+    },
+    {
+      "id": "qsim",
+      "name": "Google qsim",
+      "family": "Circuit SDKs and simulation",
+      "decision": "research",
+      "upstream": "Cirq-compatible state-vector simulator",
+      "reuse": "Reuse native CPU and supported GPU simulation.",
+      "build": "Expose a profile only for a measurable supported workload.",
+      "test": "Compare probabilities with Cirq and record time and memory as qubits or circuit counts grow.",
+      "sources": [
+        "https://quantumai.google/qsim"
+      ],
+      "status": "candidate"
+    },
+    {
+      "id": "pennylane",
+      "name": "PennyLane",
+      "family": "Circuit SDKs and simulation",
+      "decision": "alternate",
+      "upstream": "QNodes, devices and hybrid differentiation",
+      "reuse": "Use QNodes and a supported device and gradient method.",
+      "build": "Register a bounded variational experiment with versioned configuration.",
+      "test": "Check one expectation and gradient against analytic or finite-difference results, then compare direct and MCP paths.",
+      "sources": [
+        "https://docs.pennylane.ai/en/stable/"
+      ],
+      "status": "candidate"
+    },
+    {
+      "id": "lightning",
+      "name": "PennyLane Lightning",
+      "family": "Circuit SDKs and simulation",
+      "decision": "research",
+      "upstream": "CPU, GPU and tensor simulator devices; supported MPI modes",
+      "reuse": "Use existing device plugins and simulation options.",
+      "build": "Bind device, precision, mode and resource limits to the local GPU or HPC job.",
+      "test": "Compare CPU results with a permitted GPU or MPI path and record precision and any approximation.",
+      "sources": [
+        "https://docs.pennylane.ai/projects/lightning/en/stable/index.html"
+      ],
+      "status": "candidate"
+    },
+    {
+      "id": "cuda-q",
+      "name": "NVIDIA CUDA-Q",
+      "family": "Circuit SDKs and simulation",
+      "decision": "evaluate",
+      "upstream": "Circuit kernels and simulation and physical targets",
+      "reuse": "Use native target selection, libraries and measured results.",
+      "build": "Add a recipe dispatchable to local GPU or HPC with precisely identified backend and parallel settings.",
+      "test": "Compare Bell and parameterized fixtures across supported CPU/GPU paths before testing authorized distributed execution.",
+      "sources": [
+        "https://nvidia.github.io/cuda-quantum/latest/using/backends/simulators.html"
+      ],
+      "status": "candidate"
+    },
+    {
+      "id": "cuquantum",
+      "name": "NVIDIA cuQuantum",
+      "family": "Circuit SDKs and simulation",
+      "decision": "dependency",
+      "upstream": "cuStateVec and cuTensorNet",
+      "reuse": "Reuse the dependency supported by the selected simulator.",
+      "build": "Record library, method, version and compatible resources in the parent recipe.",
+      "test": "Verify that the parent simulator identifies its mode and agrees with a known CPU reference within tolerance.",
+      "sources": [
+        "https://docs.nvidia.com/cuda/cuquantum/latest/"
+      ],
+      "status": "candidate"
+    },
+    {
+      "id": "qutip",
+      "name": "QuTiP",
+      "family": "Circuit SDKs and simulation",
+      "decision": "research",
+      "upstream": "Quantum dynamics and open-system solvers",
+      "reuse": "Use the native solvers for an admitted dynamics or noise reference.",
+      "build": "Add a bounded recipe for Hamiltonian, time and observables.",
+      "test": "Compare a two-level system to the analytic result and preserve time and measurement units.",
+      "sources": [
+        "https://qutip.readthedocs.io/en/stable/"
+      ],
+      "status": "candidate"
+    },
+    {
+      "id": "pytket",
+      "name": "pytket",
+      "family": "Circuit SDKs and simulation",
+      "decision": "alternate",
+      "upstream": "Compiler and target extensions",
+      "reuse": "Use native compiler passes and the chosen provider extension.",
+      "build": "Preserve target and settings, layout, source and result circuit hashes.",
+      "test": "Check ideal equivalence for a fixture and target-specific errors for unsupported gates.",
+      "sources": [
+        "https://docs.quantinuum.com/tket/"
+      ],
+      "status": "candidate"
+    },
+    {
+      "id": "braket",
+      "name": "Amazon Braket",
+      "family": "Physical and hosted execution",
+      "decision": "alternate",
+      "upstream": "SDK, managed simulators, devices and Hybrid Jobs",
+      "reuse": "Reuse provider APIs and native device and job metadata.",
+      "build": "Bind backend and job type, lifecycle, S3 result references and reported resource consumption.",
+      "test": "Use an authorized simulator fixture, verify native artifacts and status, then require a capped physical fixture for QPU support.",
+      "sources": [
+        "https://docs.aws.amazon.com/braket/latest/developerguide/braket-devices.html",
+        "https://docs.aws.amazon.com/braket/latest/developerguide/braket-jobs.html"
+      ],
+      "status": "candidate"
+    },
+    {
+      "id": "azure-quantum",
+      "name": "Azure Quantum",
+      "family": "Physical and hosted execution",
+      "decision": "alternate",
+      "upstream": "Workspace targets and native job APIs",
+      "reuse": "Reuse an approved provider route and supported job format.",
+      "build": "Record target, input format, workspace scope and artifact identity.",
+      "test": "Compare an authorized simulator fixture with the local reference and verify failure or expiry reconciliation.",
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/quantum/qc-target-list"
+      ],
+      "status": "candidate"
+    },
+    {
+      "id": "ionq",
+      "name": "IonQ",
+      "family": "Physical and hosted execution",
+      "decision": "research",
+      "upstream": "IonQ API and selected provider route",
+      "reuse": "Reuse circuit limits, native gates and job records from one supported route.",
+      "build": "Normalize supported circuit features without hiding native results or uncertainty.",
+      "test": "Check an ideal fixture with the supported simulator and verify a bounded physical sample with stated statistical criteria.",
+      "sources": [
+        "https://docs.ionq.com/"
+      ],
+      "status": "candidate"
+    },
+    {
+      "id": "quantinuum",
+      "name": "Quantinuum Nexus",
+      "family": "Physical and hosted execution",
+      "decision": "research",
+      "upstream": "Nexus and supported compiler and emulator interfaces",
+      "reuse": "Reuse the selected workspace and native compilation and measurement metadata.",
+      "build": "Record compiler settings, circuit target and permissions.",
+      "test": "Use an authorized emulator to verify a small circuit and target restrictions before validating a physical run.",
+      "sources": [
+        "https://docs.quantinuum.com/nexus/"
+      ],
+      "status": "candidate"
+    },
+    {
+      "id": "rigetti",
+      "name": "Rigetti pyQuil and QCS",
+      "family": "Physical and hosted execution",
+      "decision": "research",
+      "upstream": "Quil, pyQuil and provider routes",
+      "reuse": "Use native circuit tools and the selected simulator or service.",
+      "build": "Track circuit format, provider ID and target-specific restrictions and calibration when provided.",
+      "test": "Compare a direct simulation with the tool output, then verify compiled gates against an authorized target before submission.",
+      "sources": [
+        "https://pyquil-docs.rigetti.com/"
+      ],
+      "status": "candidate"
+    },
+    {
+      "id": "iqm",
+      "name": "IQM Client",
+      "family": "Physical and hosted execution",
+      "decision": "research",
+      "upstream": "Native circuit client and supported device routes",
+      "reuse": "Reuse native circuit validation and submission.",
+      "build": "Preserve device, calibration when available, mapping and native status.",
+      "test": "Verify allowed and unsupported gate/layout fixtures and compare a permitted sample with a simulator reference.",
+      "sources": [
+        "https://docs.meetiqm.com/iqm-client/"
+      ],
+      "status": "candidate"
+    },
+    {
+      "id": "dwave-dimod",
+      "name": "D-Wave dimod",
+      "family": "Annealing and hybrid optimization",
+      "decision": "evaluate",
+      "upstream": "BQM/CQM representations and exact local samplers",
+      "reuse": "Use model objects and local exact samplers.",
+      "build": "Map site IDs and coverage to variables and decode back to the original score.",
+      "test": "Compare every returned valid result to the exhaustive evaluator and verify conflicts, constraints and alternative optima.",
+      "sources": [
+        "https://docs.dwavequantum.com/en/latest/ocean/stack.html"
+      ],
+      "status": "candidate"
+    },
+    {
+      "id": "dwave-leap",
+      "name": "D-Wave Leap",
+      "family": "Annealing and hybrid optimization",
+      "decision": "alternate",
+      "upstream": "Direct QPU and hybrid samplers",
+      "reuse": "Use published sampler and limit interfaces.",
+      "build": "Keep direct quantum annealing and hybrid method IDs, embedding or constraints, limits and reported timing.",
+      "test": "Compare valid results and optimality gaps to an exact reference, check over-limit handling and preserve reported timings.",
+      "sources": [
+        "https://docs.dwavequantum.com/en/latest/ocean/api_ref_system/samplers.html"
+      ],
+      "status": "candidate"
+    },
+    {
+      "id": "pasqal-pulser",
+      "name": "Pasqal Pulser",
+      "family": "Analog and photonic computing",
+      "decision": "research",
+      "upstream": "Pulse sequences, emulator and remote backends",
+      "reuse": "Reuse native device and sequence validation and supported emulation.",
+      "build": "Create a modality-specific record with array geometry, units and pulse sequence.",
+      "test": "Run a small documented emulator case and reject invalid geometry before execution, comparing observables to the published reference.",
+      "sources": [
+        "https://docs.pasqal.com/pulser/v1.0.0/tutorials/backends/"
+      ],
+      "status": "candidate"
+    },
+    {
+      "id": "quera-ahs",
+      "name": "QuEra via Braket AHS",
+      "family": "Analog and photonic computing",
+      "decision": "research",
+      "upstream": "Braket Analog Hamiltonian Simulation",
+      "reuse": "Use native analog SDK and an authorized device or simulator route.",
+      "build": "Record atom geometry, control waveform, shots and execution target.",
+      "test": "Compare a small fixture with an independent emulator and verify physical execution reports sampling and device constraints.",
+      "sources": [
+        "https://docs.aws.amazon.com/braket/latest/developerguide/braket-devices.html"
+      ],
+      "status": "candidate"
+    },
+    {
+      "id": "perceval",
+      "name": "Quandela Perceval",
+      "family": "Analog and photonic computing",
+      "decision": "research",
+      "upstream": "Optical circuits and photonic simulators",
+      "reuse": "Use original circuits, processors and sampling interfaces.",
+      "build": "Keep modes, photon input and post-selection in a photonics-specific manifest.",
+      "test": "Check an analytic two-mode beam-splitter example and distinguish total from post-selected events.",
+      "sources": [
+        "https://perceval.quandela.net/Perceval-Whitepaper.pdf"
+      ],
+      "status": "candidate"
+    },
+    {
+      "id": "openqasm",
+      "name": "OpenQASM 3",
+      "family": "Interchange and assurance",
+      "decision": "dependency",
+      "upstream": "Circuit language and versioned feature set",
+      "reuse": "Reuse the supported SDK parser or exporter.",
+      "build": "Track program version and supported features and errors.",
+      "test": "Round-trip a known circuit and compare semantics; explicitly reject unsupported constructs and register ordering conflicts.",
+      "sources": [
+        "https://openqasm.com/"
+      ],
+      "status": "candidate"
+    },
+    {
+      "id": "qir",
+      "name": "Quantum Intermediate Representation",
+      "family": "Interchange and assurance",
+      "decision": "dependency",
+      "upstream": "LLVM IR representation and profile definitions",
+      "reuse": "Use provider-supported compiler and profile definitions.",
+      "build": "Record profile and compiler version and verify advertised capabilities.",
+      "test": "Pass a compatible fixture and produce a clear failure for an unsupported profile.",
+      "sources": [
+        "https://www.qir-alliance.org/qir-book/concepts/what-is-qir.html"
+      ],
+      "status": "candidate"
+    },
+    {
+      "id": "mitiq",
+      "name": "Mitiq",
+      "family": "Interchange and assurance",
+      "decision": "research",
+      "upstream": "Error-mitigation toolkit and frontends",
+      "reuse": "Reuse supported mitigation methods and preserve original measurements.",
+      "build": "Record variants, fitting choices, seeds and additional shots.",
+      "test": "Check noisy expected values against an ideal reference, comparing raw and mitigated estimates across seeds with uncertainty and overhead.",
+      "sources": [
+        "https://mitiq.readthedocs.io/en/stable/"
+      ],
+      "status": "candidate"
+    },
+    {
+      "id": "resource-estimator",
+      "name": "Microsoft Quantum Resource Estimator",
+      "family": "Interchange and assurance",
+      "decision": "research",
+      "upstream": "Resource estimation with explicit architecture assumptions",
+      "reuse": "Reuse estimator and compatible input tooling.",
+      "build": "Preserve qubit and error-model assumptions, estimated units and version.",
+      "test": "Repeat a documented estimate and change one hardware assumption to verify both the result and its provenance.",
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/quantum/intro-to-resource-estimation"
+      ],
+      "status": "candidate"
+    },
+    {
+      "id": "hpc-simulator-bridge",
+      "name": "Polisplexity HPC simulation dispatch",
+      "family": "Applications",
+      "decision": "research",
+      "upstream": "Versioned experiment plus HPC job and artifact manifests",
+      "reuse": "Reuse the simulator and the HPC adapter's lifecycle.",
+      "build": "Bind experiment ID, circuit hash and simulator settings to the HPC receipt and re-import results.",
+      "test": "Run the same small circuit locally and after HPC dispatch, compare probabilities and retain both run records.",
+      "sources": [
+        "https://nvidia.github.io/cuda-quantum/latest/using/backends/simulators.html"
+      ],
+      "status": "candidate"
+    },
+    {
+      "id": "qiskit-experiments",
+      "name": "Qiskit Experiments",
+      "family": "Interchange and assurance",
+      "decision": "research",
+      "upstream": "Existing experiment definitions and analysis for characterization",
+      "reuse": "Reuse a documented characterization or tomography experiment and its analysis tools.",
+      "build": "Keep circuit families, run dates, shots, uncertainties and device configuration with the outcome.",
+      "test": "Run a synthetic calibration fixture with a known signal. Verify fitted values, uncertainty and native/MCP parity.",
+      "sources": [
+        "https://github.com/qiskit-community/qiskit-experiments"
+      ],
+      "status": "candidate"
+    },
+    {
+      "id": "qiskit-nature",
+      "name": "Qiskit Nature",
+      "family": "Scientific applications",
+      "decision": "research",
+      "upstream": "Quantum chemistry and other scientific problem mapping",
+      "reuse": "Use native second-quantized operators and supported mappings for a specific small problem.",
+      "build": "Bind source problem data, basis, mapper and reference energy to an experiment recipe.",
+      "test": "Compare a reproducible small molecule case against classical exact diagonalization and validate energy units and symmetry assumptions.",
+      "sources": [
+        "https://github.com/qiskit-community/qiskit-nature"
+      ],
+      "status": "candidate"
+    },
+    {
+      "id": "openfermion",
+      "name": "OpenFermion",
+      "family": "Scientific applications",
+      "decision": "alternate",
+      "upstream": "Fermionic operators and mappings to qubit operators",
+      "reuse": "Reuse operator construction and a supported transformation for an independent reference.",
+      "build": "Preserve operator ordering, basis and source data identity in an application-specific contract.",
+      "test": "Compare an analytically known small operator before and after mapping and reproduce its spectral reference.",
+      "sources": [
+        "https://quantumai.google/openfermion/"
+      ],
+      "status": "candidate"
+    },
+    {
+      "id": "qsharp",
+      "name": "Microsoft QDK and Q#",
+      "family": "Circuit SDKs and simulation",
+      "decision": "alternate",
+      "upstream": "Q# programs and documented local simulators and tooling",
+      "reuse": "Use the QDK compiler and supported simulators for Q#-native recipes.",
+      "build": "Record program and compiler version, simulation target and exchange capabilities for the chosen workload.",
+      "test": "Run a fixed two-qubit example locally and compare the emitted measurements with the analytic distribution and a second simulator.",
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/quantum/qsharp-overview"
+      ],
+      "status": "candidate"
+    },
+    {
+      "id": "mqt-bench",
+      "name": "MQT Bench",
+      "family": "Interchange and assurance",
+      "decision": "evaluate",
+      "upstream": "Versioned quantum circuit benchmark generation",
+      "reuse": "Reuse supported circuit families and abstraction levels as compiler and simulator fixtures.",
+      "build": "Store benchmark name, level, program and exact settings in the experiment manifest.",
+      "test": "Generate a small circuit twice at a pinned version and verify source/compiled equivalence and reported circuit metrics.",
+      "sources": [
+        "https://mqt.readthedocs.io/projects/bench/en/stable/"
+      ],
+      "status": "candidate"
+    }
+  ]
+}
